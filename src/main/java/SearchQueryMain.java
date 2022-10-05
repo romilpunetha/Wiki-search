@@ -9,18 +9,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-class POSTING_OFFSET 
+class PostingOffset
 {
 		String posting_word;
 		String posting_offset;
-		POSTING_OFFSET(String word,String offset)
+		PostingOffset(String word, String offset)
 		{
 		this.posting_word=word;
 		this.posting_offset=offset;
 		}
 }
 
-public class SEARCH_QUERY_MAIN {
+public class SearchQueryMain {
 	
 	public static void get_docid(String term,String field_query) throws IOException
 	{
@@ -37,7 +37,7 @@ public class SEARCH_QUERY_MAIN {
 				break;
 			}
 			String temp[]=read_from_secondary_file.split("-");
-			POSTING_OFFSET temp_obj=new POSTING_OFFSET(temp[0],temp[1]);
+			PostingOffset temp_obj=new PostingOffset(temp[0],temp[1]);
 			secondary_index.add(temp_obj);
 		}
 		String word_offset_primary[]=get_offset(term,secondary_index).split("-");
@@ -52,7 +52,7 @@ public class SEARCH_QUERY_MAIN {
 				break;
 			}
 			String temp[]=read_from_primary_file.split("-");
-			POSTING_OFFSET temp_obj=new POSTING_OFFSET(temp[0],temp[1]);
+			PostingOffset temp_obj=new PostingOffset(temp[0],temp[1]);
 			primary_index.add(temp_obj);
 		}
 		String result[]=get_offset(term,primary_index).split("-");
@@ -66,7 +66,7 @@ public class SEARCH_QUERY_MAIN {
 		}
 	}
 	
-	public static String get_offset(String term, ArrayList<POSTING_OFFSET> index)
+	public static String get_offset(String term, ArrayList<PostingOffset> index)
 	{
 		int start=0,end=index.size();
 		while(start<end)
@@ -89,9 +89,9 @@ public class SEARCH_QUERY_MAIN {
 		return index.get(start).posting_word+"-"+index.get(start).posting_offset;
 	}
 	static ArrayList<String> final_posting_lists=new ArrayList<>();
-	static ArrayList<POSTING_OFFSET> primary_index=new ArrayList<>();
-	static ArrayList<POSTING_OFFSET> secondary_index=new ArrayList<>();
-	static ArrayList<POSTING_OFFSET> tertiary_index=new ArrayList<>();
+	static ArrayList<PostingOffset> primary_index=new ArrayList<>();
+	static ArrayList<PostingOffset> secondary_index=new ArrayList<>();
+	static ArrayList<PostingOffset> tertiary_index=new ArrayList<>();
 	static RandomAccessFile read_primary_index,read_secondary_index;
 	public static Map<String,Integer> stopword = new HashMap<String,Integer>();
 	static Scanner read=null;
@@ -113,7 +113,7 @@ public class SEARCH_QUERY_MAIN {
         while((read_next_line=buffered_reader.readLine())!=null)
         {
         	String term_offset[]=read_next_line.split("-");
-        	tertiary_index.add(new POSTING_OFFSET(term_offset[0],term_offset[1]));
+        	tertiary_index.add(new PostingOffset(term_offset[0],term_offset[1]));
         }
         buffered_reader.close();
         System.out.println("Tertiary index created");
@@ -126,7 +126,7 @@ public class SEARCH_QUERY_MAIN {
         while((read_next_line=buffered_reader.readLine())!=null)
         {
         	String term_offset[]=read_next_line.split("-");
-        	SearchRanking.secondary_title.add(new POSTING_OFFSET(term_offset[0],term_offset[1]));
+        	SearchRanking.secondary_title.add(new PostingOffset(term_offset[0],term_offset[1]));
         	
         }
         buffered_reader.close();

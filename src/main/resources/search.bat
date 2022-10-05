@@ -1,1 +1,1 @@
-java -cp src\ SEARCH_QUERY_MAIN
+java -cp src\ SearchQueryMain

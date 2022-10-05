@@ -33,7 +33,7 @@ class RankComparator implements Comparator<DocCount>
 public class SearchRanking
 {
 	
-	public static String get_offset(int term, ArrayList<POSTING_OFFSET> index)
+	public static String get_offset(int term, ArrayList<PostingOffset> index)
 	{
 		int start=0,end=index.size();
 		while(start<end)
@@ -72,7 +72,7 @@ public class SearchRanking
 				break;
 			}
 			String tempe[]=read_from_secondary_file.split("-");
-			POSTING_OFFSET temp_obj=new POSTING_OFFSET(tempe[0],tempe[1]);
+			PostingOffset temp_obj=new PostingOffset(tempe[0],tempe[1]);
 			secondary_title.add(temp_obj);
 		}
 		*/
@@ -89,7 +89,7 @@ public class SearchRanking
 				break;
 			}
 			String tempe[]=read_from_primary_file.split("-");
-			POSTING_OFFSET temp_obj=new POSTING_OFFSET(tempe[0],tempe[1]);
+			PostingOffset temp_obj=new PostingOffset(tempe[0],tempe[1]);
 			primary_title.add(temp_obj);
 		}
 		
@@ -97,9 +97,9 @@ public class SearchRanking
 		return result[1];
 	}
 	
-	static ArrayList<POSTING_OFFSET> primary_title=new ArrayList<>();
-	static ArrayList<POSTING_OFFSET> secondary_title=new ArrayList<>();
-	//static ArrayList<POSTING_OFFSET> tertiary_title=new ArrayList<>();
+	static ArrayList<PostingOffset> primary_title=new ArrayList<>();
+	static ArrayList<PostingOffset> secondary_title=new ArrayList<>();
+	//static ArrayList<PostingOffset> tertiary_title=new ArrayList<>();
 	static RandomAccessFile read_primary_title,read_secondary_title;
 	
 public static void get_rank(ArrayList<String> final_posting_lists) throws IOException 
@@ -113,7 +113,7 @@ public static void get_rank(ArrayList<String> final_posting_lists) throws IOExce
      while((read_next_line=buffered_reader.readLine())!=null)
      {
      	String term_offset[]=read_next_line.split("-");
-     	tertiary_title.add(new POSTING_OFFSET(term_offset[0],term_offset[1]));
+     	tertiary_title.add(new PostingOffset(term_offset[0],term_offset[1]));
      }
      buffered_reader.close();*/
 	
@@ -181,7 +181,7 @@ public static void get_rank(ArrayList<String> final_posting_lists) throws IOExce
 	{
 		final_rank.add(t.getValue());
 	}
-	SEARCH_QUERY_MAIN.end= System.currentTimeMillis();
+	SearchQueryMain.end= System.currentTimeMillis();
 	for(int p=0;p<10 && !final_rank.isEmpty();p++)
 	{
 		DocCount temp=final_rank.poll();
@@ -195,8 +195,8 @@ public static void get_rank(ArrayList<String> final_posting_lists) throws IOExce
 		System.out.println(temp.doc+" : "+doc_name);
 		}
 	}
-	System.out.println((SEARCH_QUERY_MAIN.end - SEARCH_QUERY_MAIN.start)/1000 + " sec");
-	SEARCH_QUERY_MAIN.end=0;
+	System.out.println((SearchQueryMain.end - SearchQueryMain.start)/1000 + " sec");
+	SearchQueryMain.end=0;
 
 	}
 }
