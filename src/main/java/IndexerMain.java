@@ -2,18 +2,16 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.util.*;
 @SuppressWarnings("unused")
-public class INDEXER_MAIN {
+public class IndexerMain {
 	static long secondary_index_count=0,tertiary_index_count=0,secondary_offset=0,tertiary_offset=0,secondary_offset_tostore=0,tertiary_offset_tostore=0;;
 	static BufferedWriter buffered_writer, buffered_writer_secondary, buffered_writer_tertiary;
 	public static Map<String,Integer> stopword = new HashMap<String,Integer>();
     static Scanner read=null;
-    public static Map<String, HashMap<String, INDEXER_TAGS>> index = new TreeMap<String,HashMap<String,INDEXER_TAGS>>();
+    public static Map<String, HashMap<String, IndexerTags>> index = new TreeMap<String,HashMap<String, IndexerTags>>();
     public static int create_page_count=1;
     
     public static void main(String[] args) throws IOException {
@@ -51,8 +49,8 @@ public class INDEXER_MAIN {
          File inputFile=new File(args[0]);
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser saxParser = factory.newSAXParser();
-            INDEXER_SAX_PARSER INDEXER_SAX_PARSER = new INDEXER_SAX_PARSER();
-            saxParser.parse(inputFile,INDEXER_SAX_PARSER);
+            IndexerSaxParser IndexerSaxParser = new IndexerSaxParser();
+            saxParser.parse(inputFile, IndexerSaxParser);
             long end = System.currentTimeMillis();
             buffered_writer.close();
             buffered_writer_secondary.close();

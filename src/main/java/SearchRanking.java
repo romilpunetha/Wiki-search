@@ -6,12 +6,12 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.PriorityQueue;
 
-class DOC_COUNT
+class DocCount
 {
 	String doc;
 double score;
 int tf;
-DOC_COUNT(int tf,double idf,String doc)
+DocCount(int tf, double idf, String doc)
 {
 	this.score=tf*idf;
 	this.tf=tf;
@@ -21,16 +21,16 @@ DOC_COUNT(int tf,double idf,String doc)
 }
 
 
-class RANK_COMPARATOR implements Comparator<DOC_COUNT>
+class RankComparator implements Comparator<DocCount>
 {
     @Override
-    public int compare(DOC_COUNT a, DOC_COUNT b)
+    public int compare(DocCount a, DocCount b)
     {
     	return (int)(b.score-a.score);
     }
 }
 
-public class SEARCH_RANKING 
+public class SearchRanking
 {
 	
 	public static String get_offset(int term, ArrayList<POSTING_OFFSET> index)
@@ -64,7 +64,7 @@ public class SEARCH_RANKING
 		read_secondary_title.seek(0);
 		read_secondary_title.seek(secondary_offset);
 		secondary_title.clear();
-		for(int i=0;i<=INDEXER_SAX_PARSER.tertiary_limit;i++)
+		for(int i=0;i<=IndexerSaxParser.tertiary_limit;i++)
 		{
 			String read_from_secondary_file=read_secondary_title.readLine();
 			if(read_from_secondary_file==null)
@@ -81,7 +81,7 @@ public class SEARCH_RANKING
 		read_primary_title.seek(0);
 		read_primary_title.seek(primary_offset);
 		primary_title.clear();
-		for(int i=0;i<=INDEXER_SAX_PARSER.secondary_limit;i++)
+		for(int i = 0; i<= IndexerSaxParser.secondary_limit; i++)
 		{
 			String read_from_primary_file=read_primary_title.readLine();
 			if(read_from_primary_file==null)
@@ -118,9 +118,9 @@ public static void get_rank(ArrayList<String> final_posting_lists) throws IOExce
      buffered_reader.close();*/
 	
 	
-	Comparator<? super DOC_COUNT> comp=new RANK_COMPARATOR();
-	PriorityQueue<DOC_COUNT> final_rank=new PriorityQueue<>(comp);
-	HashMap<String, DOC_COUNT> rank_map=new HashMap<>();
+	Comparator<? super DocCount> comp=new RankComparator();
+	PriorityQueue<DocCount> final_rank=new PriorityQueue<>(comp);
+	HashMap<String, DocCount> rank_map=new HashMap<>();
 	for(String postings:final_posting_lists)
 		{
 		String temp[]=postings.split("-");
@@ -144,7 +144,7 @@ public static void get_rank(ArrayList<String> final_posting_lists) throws IOExce
 				tf+=contains_tf.charAt(i);
 				i++;
 			}
-			DOC_COUNT rank_var=new DOC_COUNT(Integer.parseInt(tf),idf,term);
+			DocCount rank_var=new DocCount(Integer.parseInt(tf),idf,term);
 			if(is_field_query && t.contains(temp[0]))
 			{
 				if(rank_map.containsKey(term))
@@ -177,14 +177,14 @@ public static void get_rank(ArrayList<String> final_posting_lists) throws IOExce
 			}
 			}
 		}
-	for(Entry<String, DOC_COUNT> t:rank_map.entrySet())
+	for(Entry<String, DocCount> t:rank_map.entrySet())
 	{
 		final_rank.add(t.getValue());
 	}
 	SEARCH_QUERY_MAIN.end= System.currentTimeMillis();
 	for(int p=0;p<10 && !final_rank.isEmpty();p++)
 	{
-		DOC_COUNT temp=final_rank.poll();
+		DocCount temp=final_rank.poll();
 		String doc_name=get_docname(temp.doc);
 		if(doc_name.toLowerCase().contains("wikipedia"))
 		{

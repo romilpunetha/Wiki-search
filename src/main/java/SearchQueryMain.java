@@ -29,7 +29,7 @@ public class SEARCH_QUERY_MAIN {
 		long secondary_offset=Long.parseLong(word_offset_secondary[1]);
 		read_secondary_index.seek(secondary_offset);
 		secondary_index.clear();
-		for(int i=0;i<=INDEX_MERGE.tertiary_limit;i++)
+		for(int i = 0; i<= IndexMerge.tertiary_limit; i++)
 		{
 			String read_from_secondary_file=read_secondary_index.readLine();
 			if(read_from_secondary_file==null)
@@ -44,7 +44,7 @@ public class SEARCH_QUERY_MAIN {
 		long primary_offset=Long.parseLong(word_offset_primary[1]);
 		read_primary_index.seek(primary_offset);
 		primary_index.clear();
-		for(int i=0;i<=INDEX_MERGE.secondary_limit;i++)
+		for(int i = 0; i<= IndexMerge.secondary_limit; i++)
 		{
 			String read_from_primary_file=read_primary_index.readLine();
 			if(read_from_primary_file==null)
@@ -100,7 +100,7 @@ public class SEARCH_QUERY_MAIN {
 		read_primary_index = new RandomAccessFile("PRIMARY_INDEX.txt","r");
         read_secondary_index = new RandomAccessFile("SECONDARY_INDEX.txt","r");
 		String term;
-		INDEXER_STEMMER stemmer_object = new INDEXER_STEMMER();
+		IndexerStemmer stemmer_object = new IndexerStemmer();
 		read= new Scanner(new File("stopword.txt"));
         read.useDelimiter("\n");
         while(read.hasNext()){
@@ -126,13 +126,13 @@ public class SEARCH_QUERY_MAIN {
         while((read_next_line=buffered_reader.readLine())!=null)
         {
         	String term_offset[]=read_next_line.split("-");
-        	SEARCH_RANKING.secondary_title.add(new POSTING_OFFSET(term_offset[0],term_offset[1]));
+        	SearchRanking.secondary_title.add(new POSTING_OFFSET(term_offset[0],term_offset[1]));
         	
         }
         buffered_reader.close();
         System.out.println("DOC-ID secondary index created");
         
-        SEARCH_RANKING.read_primary_title=new RandomAccessFile("DOCID-TERM-PRIMARY.txt","r");
+        SearchRanking.read_primary_title=new RandomAccessFile("DOCID-TERM-PRIMARY.txt","r");
         String regex="[^a-zA-Z0-9:]";
         System.out.println("Enter search query, q to quit :");
 		BufferedReader buffer_reader=new BufferedReader(new InputStreamReader(System.in));
@@ -180,13 +180,13 @@ public class SEARCH_QUERY_MAIN {
 			break;
 		}
 		}
-		SEARCH_RANKING.get_rank(final_posting_lists);
+		SearchRanking.get_rank(final_posting_lists);
 		final_posting_lists.clear();
 		
 		}
 		read_primary_index.close();
 		read_secondary_index.close();
-		SEARCH_RANKING.read_secondary_title.close();
-		SEARCH_RANKING.	read_primary_title.close();
+		SearchRanking.read_secondary_title.close();
+		SearchRanking.	read_primary_title.close();
 	}
 }

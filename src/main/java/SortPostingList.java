@@ -1,23 +1,23 @@
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
-public class SORT_POSTING_LIST {
+public class SortPostingList {
 public static String sorting_posting(String posting_list)
 {
 	int pqsize=1000,posting_list_size=500, counter=0;
-	SCORE_CALCULATION_VARIABLES temp;
-	 Comparator<? super SCORE_CALCULATION_VARIABLES> p1=new sortdoc();
+	ScoreCalculationVariables temp;
+	 Comparator<? super ScoreCalculationVariables> p1=new sortdoc();
 	String sorted_posting_list="";
 	if(posting_list=="")
 		return sorted_posting_list;
-	PriorityQueue<SCORE_CALCULATION_VARIABLES> postingq =  new PriorityQueue<>(pqsize,p1);
+	PriorityQueue<ScoreCalculationVariables> postingq =  new PriorityQueue<>(pqsize,p1);
 	String s2[]=posting_list.split(";");
 	int size=s2.length;
 	sorted_posting_list+=size+"|";
 	for(int i=0;i<size;i++)
 	{
 		int resultant_score=calculate_score(s2[i]);
-		temp=new SCORE_CALCULATION_VARIABLES();
+		temp=new ScoreCalculationVariables();
 		temp.score=resultant_score;
 		temp.posting_list=s2[i];
 		postingq.add(temp);

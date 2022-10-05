@@ -3,7 +3,7 @@ import java.util.logging.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-public class INDEXER_SAX_PARSER extends DefaultHandler{
+public class IndexerSaxParser extends DefaultHandler{
     boolean page=false;
     boolean title=false;
     boolean realid=false;
@@ -43,38 +43,38 @@ public class INDEXER_SAX_PARSER extends DefaultHandler{
             }
             else if(id){
                 id_data=new String(ch,start,length);
-                INDEXER_PARSER.parse_id(id_data);
+                IndexerParser.parse_id(id_data);
                 String regex="[^a-zA-Z0-9]";
                 title_d = new StringBuilder(title_data.replaceAll(regex, " "));
                 if(title_data.length()!=0)
                 {
-                INDEXER_PARSER.parse_title(title_d);
+                IndexerParser.parse_title(title_d);
                 String primary_docid_term_entry=id_data+"-"+title_d+"\n";
-                INDEXER_MAIN.buffered_writer.write(primary_docid_term_entry);
-                INDEXER_MAIN.secondary_index_count++;
+                IndexerMain.buffered_writer.write(primary_docid_term_entry);
+                IndexerMain.secondary_index_count++;
                
-                if(INDEXER_MAIN.secondary_index_count%secondary_limit==0)
+                if(IndexerMain.secondary_index_count%secondary_limit==0)
                 {
-                	INDEXER_MAIN.secondary_index_count=0;
-                	String write_record_to_secondary_file=primary_docid_term_entry.substring(0, primary_docid_term_entry.indexOf("-")+1)+INDEXER_MAIN.secondary_offset_tostore+"\n";
-                	INDEXER_MAIN.secondary_offset_tostore=INDEXER_MAIN.secondary_offset;
-                	INDEXER_MAIN.buffered_writer_secondary.write(write_record_to_secondary_file);
-                	INDEXER_MAIN.tertiary_index_count++;
-                	if(INDEXER_MAIN.tertiary_index_count%tertiary_limit==0)
+                	IndexerMain.secondary_index_count=0;
+                	String write_record_to_secondary_file=primary_docid_term_entry.substring(0, primary_docid_term_entry.indexOf("-")+1)+ IndexerMain.secondary_offset_tostore+"\n";
+                	IndexerMain.secondary_offset_tostore= IndexerMain.secondary_offset;
+                	IndexerMain.buffered_writer_secondary.write(write_record_to_secondary_file);
+                	IndexerMain.tertiary_index_count++;
+                	if(IndexerMain.tertiary_index_count%tertiary_limit==0)
                 	{
-                		INDEXER_MAIN.tertiary_index_count=0;
-                		String write_record_to_tertiary_file=write_record_to_secondary_file.substring(0, write_record_to_secondary_file.indexOf("-")+1)+INDEXER_MAIN.tertiary_offset_tostore+"\n";
-                		INDEXER_MAIN.tertiary_offset_tostore=INDEXER_MAIN.tertiary_offset;
-                		INDEXER_MAIN.buffered_writer_tertiary.write(write_record_to_tertiary_file);
+                		IndexerMain.tertiary_index_count=0;
+                		String write_record_to_tertiary_file=write_record_to_secondary_file.substring(0, write_record_to_secondary_file.indexOf("-")+1)+ IndexerMain.tertiary_offset_tostore+"\n";
+                		IndexerMain.tertiary_offset_tostore= IndexerMain.tertiary_offset;
+                		IndexerMain.buffered_writer_tertiary.write(write_record_to_tertiary_file);
                 	}
-                	INDEXER_MAIN.tertiary_offset+=write_record_to_secondary_file.length();
+                	IndexerMain.tertiary_offset+=write_record_to_secondary_file.length();
                 }
-                INDEXER_MAIN.secondary_offset+=primary_docid_term_entry.length();
+                IndexerMain.secondary_offset+=primary_docid_term_entry.length();
                 }
             }
             else if(text){
                 StringBuilder text_data= new StringBuilder(new String(ch,start,length));
-                INDEXER_PARSER.parse_text(text_data);
+                IndexerParser.parse_text(text_data);
             }
         }
         catch(Exception e){
@@ -87,7 +87,7 @@ public class INDEXER_SAX_PARSER extends DefaultHandler{
             if(counter==page_limit)
             {
             	try {
-					INDEXER_CREATE_INDEX.write_to_file();
+					IndexerCreateIndex.write_to_file();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -109,18 +109,18 @@ public class INDEXER_SAX_PARSER extends DefaultHandler{
         if(qName.equalsIgnoreCase("mediawiki")){
             try {
             	 String primary_docid_term_entry=id_data+"-"+title_d+"\n";
-            	 String write_record_to_secondary_file=primary_docid_term_entry.substring(0, primary_docid_term_entry.indexOf("-")+1)+INDEXER_MAIN.secondary_offset_tostore+"\n";
-            	 INDEXER_MAIN.buffered_writer_secondary.write(write_record_to_secondary_file);
-            	 String write_record_to_tertiary_file=write_record_to_secondary_file.substring(0, write_record_to_secondary_file.indexOf("-")+1)+INDEXER_MAIN.tertiary_offset_tostore+"\n";
-         		 INDEXER_MAIN.buffered_writer_tertiary.write(write_record_to_tertiary_file);
-                 INDEXER_CREATE_INDEX.write_to_file();
+            	 String write_record_to_secondary_file=primary_docid_term_entry.substring(0, primary_docid_term_entry.indexOf("-")+1)+ IndexerMain.secondary_offset_tostore+"\n";
+            	 IndexerMain.buffered_writer_secondary.write(write_record_to_secondary_file);
+            	 String write_record_to_tertiary_file=write_record_to_secondary_file.substring(0, write_record_to_secondary_file.indexOf("-")+1)+ IndexerMain.tertiary_offset_tostore+"\n";
+         		 IndexerMain.buffered_writer_tertiary.write(write_record_to_tertiary_file);
+                 IndexerCreateIndex.write_to_file();
             } catch (Exception ex) {
-                Logger.getLogger(INDEXER_SAX_PARSER.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(IndexerSaxParser.class.getName()).log(Level.SEVERE, null, ex);
             }
-            INDEXER_PARSER.title.setLength(0);
-            INDEXER_PARSER.text.setLength(0);
-            INDEXER_PARSER.info.setLength(0);
-            INDEXER_PARSER.cat.setLength(0);
+            IndexerParser.title.setLength(0);
+            IndexerParser.text.setLength(0);
+            IndexerParser.info.setLength(0);
+            IndexerParser.cat.setLength(0);
         }
     }
 }

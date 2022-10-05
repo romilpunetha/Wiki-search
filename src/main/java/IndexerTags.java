@@ -1,6 +1,6 @@
-public class INDEXER_TAGS {
+public class IndexerTags {
     int title,body,info_box,category;
-    INDEXER_TAGS()
+    IndexerTags()
     {
         this.title=0;
         this.body=0;

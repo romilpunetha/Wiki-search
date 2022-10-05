@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class FIX_DOCID {
+public class FixDocID {
 	static String id,term;
 	static long secondary_index_count=0,tertiary_index_count=0,secondary_offset=0,tertiary_offset=0,secondary_offset_tostore=0,tertiary_offset_tostore=0;;
 	static BufferedWriter buffered_writer, buffered_writer_secondary, buffered_writer_tertiary;
@@ -69,7 +69,7 @@ public class FIX_DOCID {
 	    	}
     	 String write_record_to_secondary_file=id+"="+secondary_offset_tostore+"\n";
     	 buffered_writer_secondary.write(write_record_to_secondary_file);
-    	 String write_record_to_tertiary_file=id+"="+INDEXER_MAIN.tertiary_offset_tostore+"\n";
+    	 String write_record_to_tertiary_file=id+"="+ IndexerMain.tertiary_offset_tostore+"\n";
  		 buffered_writer_tertiary.write(write_record_to_tertiary_file);
 	     buffered_reader.close();
 	     buffered_writer.close();

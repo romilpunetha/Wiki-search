@@ -1,5 +1,5 @@
 
-public class INDEX_POSTING_LIST {
+public class IndexPostingList {
 		String term,post;
 		int fid;
 	}

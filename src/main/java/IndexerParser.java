@@ -1,4 +1,4 @@
-public class INDEXER_PARSER{
+public class IndexerParser {
     static String curId;
     static StringBuilder title=new StringBuilder();
     static StringBuilder text=new StringBuilder();
@@ -22,7 +22,7 @@ public class INDEXER_PARSER{
                 String lower=title.toString().toLowerCase();
                 lower=lower.trim();
                 if(!(lower.length()==0||lower.isEmpty())){
-                    INDEXER_CREATE_MAP.title_mapping(lower);
+                    IndexerCreateMap.title_mapping(lower);
                 }
                 title.setLength(0);
             }
@@ -82,7 +82,7 @@ public class INDEXER_PARSER{
                                   
                                     if(!(lower.length()==0||lower.isEmpty()))
                                     {
-                                        INDEXER_CREATE_MAP.info_mapping(lower);
+                                        IndexerCreateMap.info_mapping(lower);
                                     }
                                     info.setLength(0);
                                 }
@@ -92,7 +92,7 @@ public class INDEXER_PARSER{
                                 String lower=info.toString().toLowerCase();
                                 lower=lower.trim();
                                 if(!(lower.length()==0||lower.isEmpty())){
-                                    INDEXER_CREATE_MAP.info_mapping(lower);
+                                    IndexerCreateMap.info_mapping(lower);
                                 }
                                 info.setLength(0);
                             }
@@ -186,7 +186,7 @@ public class INDEXER_PARSER{
                                   
                                     if(!(lower.length()==0||lower.isEmpty()))
                                     {
-                                        INDEXER_CREATE_MAP.cat_mapping(lower);
+                                        IndexerCreateMap.cat_mapping(lower);
                                     }
                                     cat.setLength(0);
                                 }
@@ -197,7 +197,7 @@ public class INDEXER_PARSER{
                              //   System.out.println("category = "+lower);
                                 lower=lower.trim();
                                 if(!(lower.length()==0||lower.isEmpty())){
-                                    INDEXER_CREATE_MAP.cat_mapping(lower);
+                                    IndexerCreateMap.cat_mapping(lower);
                                 }
                                 cat.setLength(0);
                                 add_cat=false;
@@ -293,7 +293,7 @@ public class INDEXER_PARSER{
                           
                             if(!(lower.length()==0||lower.isEmpty()))
                             {
-                                INDEXER_CREATE_MAP.text_mapping(lower);
+                                IndexerCreateMap.text_mapping(lower);
                             }
                             text.setLength(0);
                         }
@@ -305,7 +305,7 @@ public class INDEXER_PARSER{
                       
                         if(!(lower.length()==0||lower.isEmpty()))
                         {
-                            INDEXER_CREATE_MAP.text_mapping(lower);
+                            IndexerCreateMap.text_mapping(lower);
                         }
                         text.setLength(0);
                     }

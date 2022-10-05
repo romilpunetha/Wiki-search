@@ -1,2 +1,2 @@
-java -Xmx2g -d64 -cp src\  INDEX_MERGE
+java -Xmx2g -d64 -cp src\  IndexMerge
 call search.bat

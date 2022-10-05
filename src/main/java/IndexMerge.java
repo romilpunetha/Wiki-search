@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
-public class INDEX_MERGE {
+public class IndexMerge {
 	static int file_count=0,secondary_limit=1000,tertiary_limit=100,init=0;
     public static void main(String[] args) throws FileNotFoundException, IOException
     {
@@ -19,9 +19,9 @@ public class INDEX_MERGE {
     	
     	long start = System.currentTimeMillis();
     	long secondary_offset=0,tertiary_offset=0,secondary_offset_tostore=0,tertiary_offset_tostore=0;
-    	Comparator<? super INDEX_POSTING_LIST> record_comparator= new INDEX_COMPARATOR();
-        PriorityQueue<INDEX_POSTING_LIST> priority_queue =  new PriorityQueue<>(file_count,record_comparator);
-        INDEX_POSTING_LIST score_calculation_object,list_records,second_last_word, head_list;
+    	Comparator<? super IndexPostingList> record_comparator= new IndexComparator();
+        PriorityQueue<IndexPostingList> priority_queue =  new PriorityQueue<>(file_count,record_comparator);
+        IndexPostingList score_calculation_object,list_records,second_last_word, head_list;
         int i=0,count=0,secondary_file_id=0,secondary_index_create_after_count=0,tertiary_index_create_after_count=0,primary_file_id;
         String term_from_file,list_from_record,record_word,record_list,posting_list = null,secondary_posting_list=null,secondary_term_list=null,write_record_to_file="",primary_post,primary_term;
         boolean is_queue_empty=false;
@@ -54,7 +54,7 @@ public class INDEX_MERGE {
                 {
                     record_word=posting_list.substring(0,posting_list.indexOf('-'));
                     record_list=posting_list.substring(posting_list.indexOf('-')+1);
-                    list_records= new INDEX_POSTING_LIST();
+                    list_records= new IndexPostingList();
                     list_records.term=record_word;
                     list_records.post=record_list;
                     list_records.fid=i;
@@ -86,7 +86,7 @@ public class INDEX_MERGE {
                 if(record_from_file!=null){
                     term_from_file=record_from_file.substring(0,record_from_file.indexOf('-'));
                     list_from_record=record_from_file.substring(record_from_file.indexOf('-')+1);
-                    score_calculation_object = new INDEX_POSTING_LIST();
+                    score_calculation_object = new IndexPostingList();
                     score_calculation_object.term=term_from_file;
                     score_calculation_object.post=list_from_record;
                     score_calculation_object.fid=primary_file_id;
@@ -112,7 +112,7 @@ public class INDEX_MERGE {
                     }
                     else
                     {
-                    	primary_post=SORT_POSTING_LIST.sorting_posting(primary_post);
+                    	primary_post= SortPostingList.sorting_posting(primary_post);
                         write_record_to_file="";
                         write_record_to_file=primary_term+"-"+primary_post+"\n";
                         secondary_index_create_after_count++;
